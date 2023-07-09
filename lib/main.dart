@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Betweener',
+      title:  'Betweener',
       theme: ThemeData(
           useMaterial3: true,
           colorSchemeSeed: kPrimaryColor,
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
                 color: kPrimaryColor),
           ),
           scaffoldBackgroundColor: kScaffoldColor),
-      home: const OnBoardingView(),
+      home: const HomeView(),
       routes: {
         LoginView.id: (context) => LoginView(),
         RegisterView.id: (context) => RegisterView(),
