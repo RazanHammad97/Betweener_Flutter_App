@@ -8,6 +8,7 @@ import 'package:bootcamp_starter/features/profile/profile_view.dart';
 import 'package:flutter/material.dart';
 
 import 'core/util/constants.dart';
+import 'features/active_share/widgets/profile_listview.dart';
 
 void main() async {
   runApp(const MyApp());
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
                 color: kPrimaryColor),
           ),
           scaffoldBackgroundColor: kScaffoldColor),
-      home: const OnBoardingView(),
+      home: const ReceiveView(),
       routes: {
         LoginView.id: (context) => LoginView(),
         RegisterView.id: (context) => RegisterView(),
