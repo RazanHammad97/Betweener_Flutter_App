@@ -1,18 +1,13 @@
-import 'package:bootcamp_starter/core/util/assets.dart';
 import 'package:flutter/material.dart';
 import '../../core/util/constants.dart';
 
-class Friend_Profile extends StatelessWidget {
+class FriendProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.black,
-            size: 45.81,
-          ),
+          icon: const Icon(Icons.arrow_back_ios),
           onPressed: () {},
         ),
         title: const Text(
@@ -27,14 +22,14 @@ class Friend_Profile extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(
-          horizontal: 40,
+          horizontal: 30,
         ),
         child: Column(
           children: [
             Container(
               width: 296,
               height: 126,
-              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               decoration: BoxDecoration(
                   color: kPrimaryColor,
                   borderRadius: BorderRadius.circular(15)),
