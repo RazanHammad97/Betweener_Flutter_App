@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:bootcamp_starter/core/helper/context_extention.dart';
 import 'package:bootcamp_starter/core/util/assets.dart';
 import 'package:bootcamp_starter/core/widgets/custom_labeled_textfield_widget.dart';
 import 'package:bootcamp_starter/core/widgets/secondary_button_widget.dart';
@@ -6,17 +7,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../controller/auth_api_controller.dart';
+import '../../core/util/constants.dart';
+import '../../models/logged_user.dart';
+import '../main_app/main_app_view.dart';
+import 'login_view.dart';
 import 'widgets/google_button_widget.dart';
 
-class RegisterView extends StatelessWidget {
+class RegisterView extends StatefulWidget {
   static String id = '/registerView';
 
-  TextEditingController nameController = TextEditingController(text: 'ss');
-  TextEditingController emailController =
-      TextEditingController(text: 'ss@ss.com');
-  TextEditingController passwordController = TextEditingController(text: '123');
-
   RegisterView({super.key});
+
+  @override
+  State<RegisterView> createState() => _RegisterViewState();
+}
+
+class _RegisterViewState extends State<RegisterView> {
+  TextEditingController nameController = TextEditingController();
+
+  TextEditingController emailController = TextEditingController();
+
+  TextEditingController passwordController = TextEditingController();
+
+  bool loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +93,17 @@ class RegisterView extends StatelessWidget {
                   SizedBox(
                     height: 24.h,
                   ),
-                  SecondaryButtonWidget(onTap: () {}, text: 'REGISTER'),
+                  loading
+                      ? Center(
+                          child: CircularProgressIndicator(
+                            color: kPrimaryColor,
+                          ),
+                        )
+                      : SecondaryButtonWidget(
+                          onTap: () {
+                            performRegister();
+                          },
+                          text: 'REGISTER'),
                   SizedBox(
                     height: 12.h,
                   ),
@@ -102,5 +126,36 @@ class RegisterView extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void performRegister() {
+    setState(() {
+      loading = true;
+      register();
+    });
+  }
+
+  void register() async {
+    bool statues = await AuthApiController().register(user: user);
+    if (statues) {
+      Navigator.pushNamed(context, LoginView.id);
+    } else {
+      context.showSnakBar(
+        message: 'Invalid Credential',
+        error: true,
+      );
+    }
+    setState(() {
+      loading = false;
+    });
+  }
+
+  LogedUser get user {
+    LogedUser user = LogedUser();
+    user.email = emailController.text;
+    user.password = passwordController.text;
+    user.name = nameController.text;
+    user.confirm = passwordController.text;
+    return user;
   }
 }

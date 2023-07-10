@@ -6,6 +6,8 @@ import 'package:bootcamp_starter/features/active_share/receive_view.dart';
 import 'package:bootcamp_starter/features/main_app/widgets/custom_floating_nav_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../pref/shared_pref.dart';
+
 class HomeView extends StatefulWidget {
   static String id = '/homeView';
 
@@ -25,6 +27,7 @@ class _HomeViewState extends State<HomeView> {
   ];
   @override
   Widget build(BuildContext context) {
+    String name = SharedPrefController().getValueFor('name');
     return Scaffold(
       bottomNavigationBar: CustomFloatingNavBar(
         currentIndex: _currentIndex,
@@ -74,7 +77,7 @@ class _HomeViewState extends State<HomeView> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        "Hello, Razan!",
+                        "Hello, $name!",
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 24.sp),
                       ),
