@@ -10,6 +10,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'core/util/constants.dart';
 import 'features/active_share/widgets/profile_listview.dart';
 import 'features/add_link/add_link.dart';
+import 'features/edit_user_info/edit_user_info.dart';
 
 
 void main() async {
@@ -33,9 +34,9 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
               useMaterial3: true,
               colorSchemeSeed: kPrimaryColor,
-              appBarTheme: const AppBarTheme(
+              appBarTheme: AppBarTheme(
                 titleTextStyle: TextStyle(
-                    fontSize: 24,
+                    fontSize: 24.sp,
                     fontWeight: FontWeight.bold,
                     color: kPrimaryColor),
               ),
@@ -49,6 +50,7 @@ class MyApp extends StatelessWidget {
             ProfileView.id: (context) => const ProfileView(),
             ReceiveView.id: (context) => const ReceiveView(),
             AddLink.id: (context) => AddLink(),
+            EditUserInfo.id: (context) => EditUserInfo(),
           },
         );
 

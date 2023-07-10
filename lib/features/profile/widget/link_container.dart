@@ -15,7 +15,7 @@ class LinkContainer extends StatelessWidget {
     return SizedBox(
       height: 280.h,
       child: ListView.builder(
-        itemCount: 5,
+        itemCount: 3,
         itemBuilder: (context, index) {
           var ContainerColor = Color(0xffFEE2E7);
           var titleColor = Color(0xff783341);

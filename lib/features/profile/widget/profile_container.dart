@@ -7,8 +7,9 @@ import '../../../core/util/styles.dart';
 class ProfileContainer extends StatelessWidget {
   const ProfileContainer({
     super.key,
+    required this.onPressed,
   });
-
+  final Function() onPressed;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -50,7 +51,7 @@ class ProfileContainer extends StatelessWidget {
               ),
             ),
             InkWell(
-              onTap: () {},
+              onTap: onPressed,
               child: Icon(
                 Icons.edit_outlined,
                 color: Colors.white,
