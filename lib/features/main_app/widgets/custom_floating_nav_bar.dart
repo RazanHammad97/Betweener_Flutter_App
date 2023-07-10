@@ -1,5 +1,6 @@
 import 'package:bootcamp_starter/core/util/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomFloatingNavBar extends StatelessWidget {
   final int currentIndex;
@@ -11,9 +12,9 @@ class CustomFloatingNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(24.0, 0, 24.0, 24.0),
+      padding: EdgeInsets.fromLTRB(24.0.w, 0.h, 24.0.w, 24.0.h),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(50),
+        borderRadius: BorderRadius.circular(50.r),
         child: BottomNavigationBar(
           showSelectedLabels: false,
           showUnselectedLabels: false,
