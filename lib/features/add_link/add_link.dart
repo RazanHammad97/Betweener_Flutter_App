@@ -4,6 +4,8 @@ import '../../core/widgets/custom_labeled_textfield_widget.dart';
 
 class AddLink extends StatelessWidget {
   AddLink({super.key});
+  static String id = '/AddLink';
+
   final TextEditingController _textTitleController = TextEditingController();
   final TextEditingController _textLinkController = TextEditingController();
   @override
@@ -12,7 +14,9 @@ class AddLink extends StatelessWidget {
         appBar: AppBar(
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
           title: const Text(
             "Add Link",
