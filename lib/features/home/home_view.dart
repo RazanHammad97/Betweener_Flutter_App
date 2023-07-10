@@ -114,7 +114,7 @@ class _HomeViewState extends State<HomeView> {
                           ),
                           width: 116.w,
                           height: 79.h,
-                          child: Column(
+                          child: const Column(
                             children: [Text("Facebook"), Text("@Razan")],
                           ),
                         ),
@@ -128,7 +128,7 @@ class _HomeViewState extends State<HomeView> {
                           ),
                           width: 116.w,
                           height: 79.h,
-                          child: Column(
+                          child: const Column(
                             children: [Text("Twitter"), Text("@Razan")],
                           ),
                         ),
@@ -142,7 +142,7 @@ class _HomeViewState extends State<HomeView> {
                           ),
                           width: 116.w,
                           height: 79.h,
-                          child: Column(
+                          child: const Column(
                             children: [Text("Instagram"), Text("@Razan")],
                           ),
                         ),
