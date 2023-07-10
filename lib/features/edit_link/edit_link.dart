@@ -1,25 +1,24 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:bootcamp_starter/core/helper/context_extention.dart';
 import 'package:bootcamp_starter/core/widgets/secondary_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../controller/link_api_controller.dart';
 import '../../core/helper/helper.dart';
-import '../../core/util/constants.dart';
 import '../../core/widgets/custom_labeled_textfield_widget.dart';
 import '../../models/api_ressponse.dart';
+import '../../models/user_link_model.dart';
+import '../profile/profile_view.dart';
 
-class AddLink extends StatefulWidget {
-  AddLink({super.key});
-  static String id = '/AddLink';
+class EditLink extends StatefulWidget {
+  EditLink({super.key, required this.user});
+  final UserLinkModel user;
 
   @override
-  State<AddLink> createState() => _AddLinkState();
+  State<EditLink> createState() => _EditLinkState();
 }
 
-class _AddLinkState extends State<AddLink> with Helpers {
+class _EditLinkState extends State<EditLink> with Helpers {
   final TextEditingController _textTitleController = TextEditingController();
 
   final TextEditingController _textLinkController = TextEditingController();
@@ -28,16 +27,19 @@ class _AddLinkState extends State<AddLink> with Helpers {
 
   @override
   Widget build(BuildContext context) {
+    _textTitleController.text = widget.user.title;
+    _textLinkController.text = widget.user.link;
+    _textUserNameController.text = widget.user.username;
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
+            icon: const Icon(Icons.arrow_back_ios),
             onPressed: () {
               Navigator.pop(context);
             },
           ),
           title: Text(
-            "Add Link",
+            "Edit",
             style: TextStyle(color: Colors.black, fontSize: 20.sp),
           ),
           backgroundColor: Colors.black45,
@@ -51,7 +53,7 @@ class _AddLinkState extends State<AddLink> with Helpers {
                     children: [
                       PrimaryLabeledTextFieldWidget(
                         controller: _textTitleController,
-                        hint: 'Title',
+                        hint: widget.user.title,
                         keyboardType: TextInputType.emailAddress,
                         label: 'Title',
                       ),
@@ -60,7 +62,7 @@ class _AddLinkState extends State<AddLink> with Helpers {
                       ),
                       PrimaryLabeledTextFieldWidget(
                         controller: _textUserNameController,
-                        hint: 'User Name',
+                        hint: widget.user.username,
                         keyboardType: TextInputType.text,
                         label: 'User Name',
                       ),
@@ -69,7 +71,7 @@ class _AddLinkState extends State<AddLink> with Helpers {
                       ),
                       PrimaryLabeledTextFieldWidget(
                         controller: _textLinkController,
-                        hint: 'Link',
+                        hint: widget.user.link,
                         keyboardType: TextInputType.emailAddress,
                         label: 'Link',
                       ),
@@ -79,19 +81,19 @@ class _AddLinkState extends State<AddLink> with Helpers {
                       SecondaryButtonWidget(
                         width: 100.w,
                         onTap: () {
-                          performAddingLink();
+                          performeditLink();
                         },
-                        text: 'Add ',
+                        text: 'Save ',
                       ),
                     ],
                   ))),
         ));
   }
 
-  void performAddingLink() {
+  void performeditLink() {
     if (checkData()) {
       setState(() {});
-      addLink();
+      editLink();
     }
   }
 
@@ -107,19 +109,19 @@ class _AddLinkState extends State<AddLink> with Helpers {
     return false;
   }
 
-  void addLink() async {
-    ApiResponse processResponse = await LinkApiController().addLinks(
+  void editLink() async {
+    ApiResponse processResponse = await LinkApiController().editLinks(
         title: _textTitleController.text,
         link: _textLinkController.text,
-        username: _textUserNameController.text);
+        username: _textUserNameController.text,
+        id: widget.user.id);
     if (processResponse.sucess) {
+      Navigator.pop(context);
       context.showSnakBar(
         message: processResponse.msg,
         error: !processResponse.sucess,
       );
-      _textUserNameController.clear();
-      _textLinkController.clear();
-      _textTitleController.clear();
+      setState(() {});
     }
   }
 }

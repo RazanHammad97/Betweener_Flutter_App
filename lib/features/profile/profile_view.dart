@@ -7,14 +7,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../controller/link_api_controller.dart';
+import '../../models/user_link_model.dart';
 import '../add_link/add_link.dart';
 import '../edit_user_info/edit_user_info.dart';
 
-class ProfileView extends StatelessWidget {
+class ProfileView extends StatefulWidget {
   static String id = '/profileView';
 
   const ProfileView({super.key});
 
+  @override
+  State<ProfileView> createState() => _ProfileViewState();
+}
+
+class _ProfileViewState extends State<ProfileView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,11 +39,35 @@ class ProfileView extends StatelessWidget {
             SizedBox(
               height: 36.h,
             ),
-            FadeInRight(child: ProfileContainer(onPressed: () {Navigator.pushNamed(context, EditUserInfo.id); },)),
+            FadeInRight(child: ProfileContainer(
+              onPressed: () {
+                Navigator.pushNamed(context, EditUserInfo.id);
+              },
+            )),
             SizedBox(
               height: 24.h,
             ),
-            FadeInLeft(child: LinkContainer()),
+            FutureBuilder<List<UserLinkModel>>(
+              future: LinkApiController().getMyLink(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: CircularProgressIndicator(
+                      color: kPrimaryColor,
+                    ),
+                  );
+                } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+                  return FadeInLeft(
+                      child: LinkContainer(
+                    user: snapshot.data!,
+                  ));
+                } else {
+                  return Center(
+                    child: Text('NO DATA'),
+                  );
+                }
+              },
+            ),
             FadeInRight(
               child: Padding(
                 padding: EdgeInsets.only(top: 50.h, bottom: 30.h),

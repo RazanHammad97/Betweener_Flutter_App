@@ -5,6 +5,7 @@ import 'package:bootcamp_starter/features/home/home_view.dart';
 import 'package:bootcamp_starter/features/main_app/main_app_view.dart';
 import 'package:bootcamp_starter/features/onbording/onbording_view.dart';
 import 'package:bootcamp_starter/features/profile/profile_view.dart';
+import 'package:bootcamp_starter/pref/shared_pref.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'core/util/constants.dart';
@@ -12,8 +13,11 @@ import 'features/active_share/widgets/profile_listview.dart';
 import 'features/add_link/add_link.dart';
 import 'features/edit_user_info/edit_user_info.dart';
 
-
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // HttpOverrides.global = MyHttpOverrides();
+
+  await SharedPrefController().initPreferences();
   runApp(const MyApp());
 }
 
@@ -53,7 +57,6 @@ class MyApp extends StatelessWidget {
             EditUserInfo.id: (context) => EditUserInfo(),
           },
         );
-
       },
     );
   }

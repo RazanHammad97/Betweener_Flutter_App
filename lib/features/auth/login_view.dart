@@ -1,5 +1,7 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:bootcamp_starter/core/helper/context_extention.dart';
 import 'package:bootcamp_starter/core/util/assets.dart';
+import 'package:bootcamp_starter/core/util/constants.dart';
 import 'package:bootcamp_starter/core/widgets/custom_labeled_textfield_widget.dart';
 import 'package:bootcamp_starter/core/widgets/primary_outlined_button_widget.dart';
 import 'package:bootcamp_starter/core/widgets/secondary_button_widget.dart';
@@ -9,15 +11,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../controller/auth_api_controller.dart';
+import '../../models/api_ressponse.dart';
+import '../../models/logged_user.dart';
+import '../home/home_view.dart';
 import 'widgets/google_button_widget.dart';
 
-class LoginView extends StatelessWidget {
+class LoginView extends StatefulWidget {
   static String id = '/loginView';
 
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-
   LoginView({super.key});
+
+  @override
+  State<LoginView> createState() => _LoginViewState();
+}
+
+class _LoginViewState extends State<LoginView> {
+  TextEditingController emailController = TextEditingController();
+
+  TextEditingController passwordController = TextEditingController();
+  bool loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -55,11 +68,17 @@ class LoginView extends StatelessWidget {
                   SizedBox(
                     height: 24.h,
                   ),
-                  SecondaryButtonWidget(
-                      onTap: () {
-                        Navigator.pushNamed(context, MainAppView.id);
-                      },
-                      text: 'LOGIN'),
+                  loading
+                      ? Center(
+                          child: CircularProgressIndicator(
+                            color: kPrimaryColor,
+                          ),
+                        )
+                      : SecondaryButtonWidget(
+                          onTap: () {
+                            performLogin();
+                          },
+                          text: 'LOGIN'),
                   SizedBox(
                     height: 24.h,
                   ),
@@ -90,5 +109,53 @@ class LoginView extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void performLogin() {
+    if (checkData()) {
+      setState(() {
+        loading = true;
+      });
+      login();
+    }
+  }
+
+  bool checkData() {
+    if (emailController.text.isNotEmpty && passwordController.text.isNotEmpty) {
+      _controlErrorValue();
+      return true;
+    }
+    _controlErrorValue();
+
+    return false;
+  }
+
+  void _controlErrorValue() {
+    setState(
+      () {},
+    );
+  }
+
+  void login() async {
+    bool statues = await AuthApiController().login(user: user);
+    if (statues) {
+      Navigator.pushNamed(context, MainAppView.id);
+    } else {
+      context.showSnakBar(
+        message: 'Invalid Credential',
+        error: false,
+      );
+    }
+    setState(() {
+      loading = false;
+    });
+  }
+
+  LogedUser get user {
+    LogedUser user = LogedUser();
+    user.email = emailController.text;
+    user.password = passwordController.text;
+
+    return user;
   }
 }

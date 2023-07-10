@@ -1,21 +1,38 @@
+import 'package:bootcamp_starter/core/helper/context_extention.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../controller/link_api_controller.dart';
+import '../../../core/helper/helper.dart';
 import '../../../core/util/constants.dart';
 import '../../../core/util/styles.dart';
+import '../../../models/api_ressponse.dart';
+import '../../../models/user_link_model.dart';
+import '../../edit_link/edit_link.dart';
 
-class LinkContainer extends StatelessWidget {
+class LinkContainer extends StatefulWidget {
   const LinkContainer({
     super.key,
+    required this.user,
   });
+  final List<UserLinkModel> user;
 
   @override
+  State<LinkContainer> createState() => _LinkContainerState();
+}
+
+class _LinkContainerState extends State<LinkContainer> with Helpers {
+  @override
   Widget build(BuildContext context) {
+    void updateUi() {
+      setState(() {});
+    }
+
     return SizedBox(
       height: 280.h,
       child: ListView.builder(
-        itemCount: 3,
+        itemCount: widget.user.length,
         itemBuilder: (context, index) {
           var ContainerColor = Color(0xffFEE2E7);
           var titleColor = Color(0xff783341);
@@ -54,8 +71,20 @@ class LinkContainer extends StatelessWidget {
               ),
             ),
             onDismissed: (direction) {
-              if (direction == DismissDirection.endToStart) {}
-              if (direction == DismissDirection.startToEnd) {}
+              if (direction == DismissDirection.endToStart) {
+                delete(id: widget.user![index].id);
+              }
+              if (direction == DismissDirection.startToEnd) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    settings: RouteSettings(),
+                    builder: (context) => EditLink(
+                      user: widget.user![index],
+                    ),
+                  ),
+                );
+              }
             },
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 10.0.h),
@@ -72,13 +101,13 @@ class LinkContainer extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Instagram',
+                        widget.user![index].title,
                         style: Styles.profileContenairLinkesStyle.copyWith(
                           color: titleColor,
                         ),
                       ),
                       Text(
-                        'https://www.instagram.com/a7medhq/',
+                        widget.user![index].link,
                         style: Styles.profileContenairLinkesStyle.copyWith(
                           color: subTitleColor,
                         ),
@@ -91,6 +120,15 @@ class LinkContainer extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+
+  void delete({required int id}) async {
+    ApiResponse processResponse = await LinkApiController().deleteLink(id: id);
+    if (processResponse.sucess) {}
+    context.showSnakBar(
+      message: processResponse.msg,
+      error: !processResponse.sucess,
     );
   }
 }
