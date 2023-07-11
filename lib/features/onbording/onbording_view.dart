@@ -7,6 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../pref/shared_pref.dart';
+import '../main_app/main_app_view.dart';
+
 class OnBoardingView extends StatelessWidget {
   static String id = '/onBoardingView';
 
@@ -35,7 +38,10 @@ class OnBoardingView extends StatelessWidget {
                 text: 'Get Started',
                 width: double.infinity,
                 onTap: () {
-                  Navigator.pushNamed(context, LoginView.id);
+                  String rout = SharedPrefController().LoggedIn
+                      ? MainAppView.id
+                      : LoginView.id;
+                  Navigator.pushReplacementNamed(context, rout);
                 },
               ),
               const Spacer()

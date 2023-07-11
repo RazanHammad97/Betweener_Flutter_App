@@ -1,21 +1,21 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:bootcamp_starter/core/util/constants.dart';
-import 'package:bootcamp_starter/core/util/styles.dart';
-import 'package:bootcamp_starter/features/profile/widget/link_container.dart';
+import 'package:bootcamp_starter/features/edit_user_info/edit_user_info.dart';
 import 'package:bootcamp_starter/features/profile/widget/profile_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
-
-import '../../controller/link_api_controller.dart';
-import '../../models/user_link_model.dart';
+import 'package:provider/provider.dart';
+import '../../core/util/api_response.dart';
+import '../../core/util/constants.dart';
 import '../add_link/add_link.dart';
-import '../edit_user_info/edit_user_info.dart';
+import 'links/models/link_model.dart';
+import 'links/providers/link_provider.dart';
 
 class ProfileView extends StatefulWidget {
-  static String id = '/profileView';
+  static const id = '/profileView';
 
-  const ProfileView({super.key});
+  final bool Function(UserScrollNotification)? onNotification;
+
+  const ProfileView({super.key, this.onNotification});
 
   @override
   State<ProfileView> createState() => _ProfileViewState();
@@ -23,49 +23,46 @@ class ProfileView extends StatefulWidget {
 
 class _ProfileViewState extends State<ProfileView> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        forceMaterialTransparency: true,
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-        title: Text('Profile',
-            style: Styles.titleStyle, textAlign: TextAlign.center),
-      ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 38.w),
+        padding:  EdgeInsets.symmetric(horizontal: 38.w),
         child: Column(
           children: [
-            SizedBox(
-              height: 36.h,
-            ),
-            FadeInRight(child: ProfileContainer(
-              onPressed: () {
+            SizedBox(height: 36.h),
+            FadeInRight(
+              child: ProfileContainer(onPressed:(){
                 Navigator.pushNamed(context, EditUserInfo.id);
-              },
-            )),
-            SizedBox(
-              height: 24.h,
+              }),
             ),
-            FutureBuilder<List<UserLinkModel>>(
-              future: LinkApiController().getMyLink(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                    child: CircularProgressIndicator(
-                      color: kPrimaryColor,
-                    ),
-                  );
-                } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-                  return FadeInLeft(
-                      child: LinkContainer(
-                    user: snapshot.data!,
-                  ));
-                } else {
-                  return Center(
-                    child: Text('NO DATA'),
+            SizedBox(height: 24.h,),
+            Consumer<LinkProvider>(
+              builder: (_, linkProvider, __) {
+                if (linkProvider.linkList.status == Status.LOADING) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
                   );
                 }
+                if (linkProvider.linkList.status == Status.ERROR) {
+                  return Center(
+                    child: Text('${linkProvider.linkList.message}'),
+                  );
+                }
+                print(linkProvider.linkList.data?.length);
+                return Center(
+                  child: ListView.builder(
+                    itemCount: linkProvider.linkList.data?.length,
+                    itemBuilder: (context, index) {
+                      Link? link = linkProvider.linkList.data?[index];
+                      return Text('${link?.title}');
+                    },
+                  ),
+                );
               },
             ),
             FadeInRight(
@@ -83,7 +80,7 @@ class _ProfileViewState extends State<ProfileView> {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(40.r),
                           color: kPrimaryColor),
-                      child: Icon(
+                      child: const Icon(
                         Icons.add_outlined,
                         size: 24,
                         color: Colors.white,
