@@ -1,3 +1,4 @@
+import 'package:bootcamp_starter/features/friend_profile/friend_profile.dart';
 import 'package:bootcamp_starter/models/user_model.dart';
 import 'package:flutter/material.dart';
 
@@ -36,11 +37,13 @@ class DataSearch extends SearchDelegate<String> {
                   ? ListView.builder(
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, index) => ListTile(
-                          leading: const Icon(Icons.person),
-                          title: Text(snapshot.data![index].name!),
-                          onTap: () => Navigator.pushNamed(
-                              context, '/profileView',
-                              arguments: snapshot.data![index].id)),
+                        leading: const Icon(Icons.person),
+                        title: Text(snapshot.data![index].name!),
+                        onTap: () => Navigator.pushNamed(
+                          context,
+                          FriendProfile.id,
+                        ),
+                      ),
                     )
                   : const Center(child: Text('No users found'))
               : const Center(child: CircularProgressIndicator()),
