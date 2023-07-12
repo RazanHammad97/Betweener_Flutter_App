@@ -37,13 +37,17 @@ class DataSearch extends SearchDelegate<String> {
                   ? ListView.builder(
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, index) => ListTile(
-                        leading: const Icon(Icons.person),
-                        title: Text(snapshot.data![index].name!),
-                        onTap: () => Navigator.pushNamed(
-                          context,
-                          FriendProfile.id,
-                        ),
-                      ),
+                          leading: const Icon(Icons.person),
+                          title: Text(snapshot.data![index].name!),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => FriendProfile(
+                                    user: snapshot.data![index],
+                                  ),
+                                ));
+                          }),
                     )
                   : const Center(child: Text('No users found'))
               : const Center(child: CircularProgressIndicator()),

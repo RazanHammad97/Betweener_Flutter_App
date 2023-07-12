@@ -31,16 +31,18 @@ class _ProfileViewState extends State<ProfileView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding:  EdgeInsets.symmetric(horizontal: 38.w),
+        padding: EdgeInsets.symmetric(horizontal: 38.w),
         child: Column(
           children: [
             SizedBox(height: 36.h),
             FadeInRight(
-              child: ProfileContainer(onPressed:(){
+              child: ProfileContainer(onPressed: () {
                 Navigator.pushNamed(context, EditUserInfo.id);
               }),
             ),
-            SizedBox(height: 24.h,),
+            SizedBox(
+              height: 24.h,
+            ),
             Consumer<LinkProvider>(
               builder: (_, linkProvider, __) {
                 if (linkProvider.linkList.status == Status.LOADING) {
@@ -54,13 +56,16 @@ class _ProfileViewState extends State<ProfileView> {
                   );
                 }
                 print(linkProvider.linkList.data?.length);
-                return Center(
-                  child: ListView.builder(
-                    itemCount: linkProvider.linkList.data?.length,
-                    itemBuilder: (context, index) {
-                      Link? link = linkProvider.linkList.data?[index];
-                      return Text('${link?.title}');
-                    },
+                return Container(
+                  height: 250,
+                  child: Center(
+                    child: ListView.builder(
+                      itemCount: linkProvider.linkList.data?.length,
+                      itemBuilder: (context, index) {
+                        Link? link = linkProvider.linkList.data?[index];
+                        return Text('${link?.title}');
+                      },
+                    ),
                   ),
                 );
               },

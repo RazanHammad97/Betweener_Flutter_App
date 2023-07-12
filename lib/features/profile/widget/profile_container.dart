@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../core/util/constants.dart';
 import '../../../core/util/styles.dart';
+import '../../../pref/shared_pref.dart';
 
 class ProfileContainer extends StatelessWidget {
   const ProfileContainer({
@@ -36,11 +37,11 @@ class ProfileContainer extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'John Doe',
+                    '${SharedPrefController().getValueFor('name')}',
                     style: Styles.textStyle,
                   ),
                   Text(
-                    'example@gmail.com',
+                    '${SharedPrefController().getValueFor('email')}',
                     style: Styles.textStyle.copyWith(fontSize: 12.sp),
                   ),
                   Text(

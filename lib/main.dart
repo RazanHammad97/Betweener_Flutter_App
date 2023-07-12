@@ -61,7 +61,7 @@ class MyApp extends StatelessWidget {
               MainAppView.id: (context) => const MainAppView(),
               ProfileView.id: (context) => const ProfileView(),
               ReceiveView.id: (context) => const ReceiveView(),
-              FriendProfile.id: (context) => const FriendProfile(),
+              // FriendProfile.id: (context) => const FriendProfile(),
               AddLink.id: (context) => AddLink(),
               EditUserInfo.id: (context) => EditUserInfo(),
             },

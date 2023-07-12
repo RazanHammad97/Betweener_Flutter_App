@@ -6,6 +6,7 @@ import 'package:bootcamp_starter/features/active_share/receive_view.dart';
 import 'package:bootcamp_starter/features/main_app/widgets/custom_floating_nav_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../controller/link_api_controller.dart';
 import '../../pref/shared_pref.dart';
 import 'package:bootcamp_starter/features/home/search.dart';
 
@@ -26,6 +27,7 @@ class _HomeViewState extends State<HomeView> {
     const HomeView(),
     const ProfileView()
   ];
+
   @override
   Widget build(BuildContext context) {
     String name = SharedPrefController().getValueFor('name');
@@ -106,56 +108,50 @@ class _HomeViewState extends State<HomeView> {
                 SizedBox(
                   height: 24.h,
                 ),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(left: 12.w, right: 12.w),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15.r),
-                            color: Colors.orangeAccent,
+                FutureBuilder(
+                    future: LinkApiController().getMyLink(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else if (snapshot.hasData &&
+                          snapshot.data!.isNotEmpty) {
+                        return Expanded(
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: snapshot.data!.length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: EdgeInsets.only(
+                                    left: 12.w,
+                                    right: 12.w,
+                                    top: 20.h,
+                                    bottom: 30.h),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15.r),
+                                    color: Colors.orangeAccent,
+                                  ),
+                                  width: 116.w,
+                                  height: 50.h,
+                                  child: Column(
+                                    children: [
+                                      Text(snapshot.data![index].title),
+                                      Text('@${snapshot.data![index].username}')
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
                           ),
-                          width: 116.w,
-                          height: 79.h,
-                          child: const Column(
-                            children: [Text("Facebook"), Text("@Razan")],
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(right: 12.w),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15.r),
-                            color: Colors.orangeAccent,
-                          ),
-                          width: 116.w,
-                          height: 79.h,
-                          child: const Column(
-                            children: [Text("Twitter"), Text("@Razan")],
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(right: 12.w),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15.r),
-                            color: Colors.orangeAccent,
-                          ),
-                          width: 116.w,
-                          height: 79.h,
-                          child: const Column(
-                            children: [Text("Instagram"), Text("@Razan")],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
+                        );
+                      } else {
+                        return Center(
+                          child: Text('No Link Yet'),
+                        );
+                      }
+                    }),
               ],
             ),
           ),
