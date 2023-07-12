@@ -139,7 +139,12 @@ class _LoginViewState extends State<LoginView> {
   void login() async {
     bool statues = await AuthApiController().login(user: user);
     if (statues) {
-      Navigator.pushNamed(context, MainAppView.id);
+      Future.delayed(
+        Duration(seconds: 4),
+        () {
+          Navigator.pushNamed(context, MainAppView.id);
+        },
+      );
     } else {
       context.showSnakBar(
         message: 'Invalid Credential',

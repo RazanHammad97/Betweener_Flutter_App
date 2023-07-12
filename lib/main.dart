@@ -14,6 +14,7 @@ import 'features/add_link/add_link.dart';
 import 'features/edit_user_info/edit_user_info.dart';
 import 'features/profile/links/providers/link_provider.dart';
 
+late var token;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // HttpOverrides.global = MyHttpOverrides();
@@ -67,10 +68,5 @@ class MyApp extends StatelessWidget {
         },
       ),
     );
-
-
-
-
-
   }
 }
