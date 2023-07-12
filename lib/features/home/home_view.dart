@@ -50,29 +50,24 @@ class _HomeViewState extends State<HomeView> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    ElevatedButton(onPressed: (){
-                      print("pressed");
-                      Provider.of<ActiveShareProvider>(context,listen: false).setActiveShare();
-                    }, child: Text("presss me")),
-                    // TextButton(
-                    //   onPressed: () {
-                    //     print("pressed");
-                    //     Provider.of<ActiveShareProvider>(context,listen: false).setActiveShare();
-                    //   },
-                    //   child: SizedBox(
-                    //       width: 24.w,
-                    //       height: 24.h,
-                    //       child: Image.asset(
-                    //         AssetsData.qrScanLine,
-                    //       )),
-                    // ),
+                    TextButton(
+                      onPressed: () {
+                        // print("pressed");
+                        Provider.of<ActiveShareProvider>(context, listen: false)
+                            .setActiveShare();
+                      },
+                      child: SizedBox(
+                          width: 24.w,
+                          height: 24.h,
+                          child: Image.asset(
+                            AssetsData.qrScanLine,
+                          )),
+                    ),
                     SizedBox(
                       height: 12.h,
                     ),
                     TextButton(
-                      onPressed: () {
-
-                      },
+                      onPressed: () {},
                       child: SizedBox(
                           width: 24.w,
                           height: 24.h,
@@ -99,7 +94,8 @@ class _HomeViewState extends State<HomeView> {
                   ),
                 ),
                 // SizedBox(height: 36,),
-                const Text("Long press to active share your links"),
+                const Text("Press to active Sharing"),
+                const Text("Long press to remove Active sharing"),
                 Container(
                   child: Consumer<ActiveShareProvider>(
                     builder: (_, activeShareProvider, __) {
@@ -115,19 +111,27 @@ class _HomeViewState extends State<HomeView> {
                           child: Text('error'),
                         );
                       }
-                      print(activeShareProvider.activeShare.data.toString());
-                      return Center(
-                          child:
-                              Text("${activeShareProvider.activeShare.data}"));
+
+                      print(1);
+                      print(activeShareProvider.activeShare.data?.toJson());
+
+                        return Center(
+                            child: Text(
+                                "You are now an active ${activeShareProvider.activeShare.data?.type}"));
+
                     },
                   ),
                 ),
 
                 TextButton(
                   onPressed: () {
-                    print("tapped");
+                    // print("tapped");
                     Provider.of<ActiveShareProvider>(context, listen: false)
                         .setActiveShare();
+                  },
+                  onLongPress: () {
+                    Provider.of<ActiveShareProvider>(context, listen: false)
+                        .removeActiveShare();
                   },
                   child: SizedBox(
                       width: 318.w,

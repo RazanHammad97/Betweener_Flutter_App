@@ -16,6 +16,7 @@ class ActiveShareProvider extends ChangeNotifier {
   ActiveShareProvider() {
     _activeShareRepository = ActiveShareRepository();
      setActiveShare();
+    removeActiveShare();
   }
 
   setActiveShare() async {
@@ -24,6 +25,25 @@ class ActiveShareProvider extends ChangeNotifier {
     try {
       print("before ");
       ActiveSharing as  =await _activeShareRepository.setActiveShare();
+      print("after");
+      _activeShare=ApiResponse.completed(as);
+      print(_activeShare);
+      notifyListeners();
+    }
+    catch (e){
+      _activeShare = ApiResponse.error(e.toString());
+      print(_activeShare);
+      notifyListeners();
+    }
+  }
+
+
+  removeActiveShare() async {
+    _activeShare=ApiResponse.loading("Processing removing active sharing");
+    notifyListeners();
+    try {
+      print("before ");
+      ActiveSharing as  =await _activeShareRepository.removeActiveShare();
       print("after");
       _activeShare=ApiResponse.completed(as);
       print(_activeShare);

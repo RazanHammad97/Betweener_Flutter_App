@@ -1,5 +1,5 @@
 class ActiveShareResponse {
-  late final ActiveSharing activeSharing;
+  late final ActiveSharing? activeSharing;
 
   ActiveShareResponse.fromJson(Map<String, dynamic> json) {
     if (json['activeSharing'] != null) {
@@ -10,7 +10,7 @@ class ActiveShareResponse {
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
-    _data['activeSharing'] = activeSharing.toJson();
+    _data['activeSharing'] = activeSharing!.toJson();
     return _data;
   }
 }
