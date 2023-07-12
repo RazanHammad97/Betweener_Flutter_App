@@ -10,7 +10,7 @@ class ApiBaseHelper {
     var responseJson;
     try {
       final response =
-      await http.get(Uri.parse(_baseUrl + url), headers: header);
+          await http.get(Uri.parse(_baseUrl + url), headers: header);
       responseJson = _returnResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet connection');

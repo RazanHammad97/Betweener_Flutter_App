@@ -4,6 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../core/util/constants.dart';
 
 class FriendProfile extends StatelessWidget {
+  static String id = '/friendProfile';
+
+  const FriendProfile({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

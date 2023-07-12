@@ -7,6 +7,7 @@ import 'package:bootcamp_starter/features/main_app/widgets/custom_floating_nav_b
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../pref/shared_pref.dart';
+import 'package:bootcamp_starter/features/home/search.dart';
 
 class HomeView extends StatefulWidget {
   static String id = '/homeView';
@@ -58,7 +59,9 @@ class _HomeViewState extends State<HomeView> {
                       height: 12.h,
                     ),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        showSearch(context: context, delegate: DataSearch());
+                      },
                       child: SizedBox(
                           width: 24.w,
                           height: 24.h,

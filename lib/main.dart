@@ -1,6 +1,7 @@
 import 'package:bootcamp_starter/features/active_share/receive_view.dart';
 import 'package:bootcamp_starter/features/auth/login_view.dart';
 import 'package:bootcamp_starter/features/auth/register_view.dart';
+import 'package:bootcamp_starter/features/friend_profile/friend_profile.dart';
 import 'package:bootcamp_starter/features/home/home_view.dart';
 import 'package:bootcamp_starter/features/main_app/main_app_view.dart';
 import 'package:bootcamp_starter/features/onbording/onbording_view.dart';
@@ -60,6 +61,7 @@ class MyApp extends StatelessWidget {
               MainAppView.id: (context) => const MainAppView(),
               ProfileView.id: (context) => const ProfileView(),
               ReceiveView.id: (context) => const ReceiveView(),
+              FriendProfile.id: (context) => const FriendProfile(),
               AddLink.id: (context) => AddLink(),
               EditUserInfo.id: (context) => EditUserInfo(),
             },
@@ -67,10 +69,5 @@ class MyApp extends StatelessWidget {
         },
       ),
     );
-
-
-
-
-
   }
 }
