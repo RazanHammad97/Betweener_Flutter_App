@@ -1,3 +1,5 @@
+import 'package:bootcamp_starter/core/util/api_settings.dart';
+
 import '../../../../core/util/api_base_helper.dart';
 import '../models/link_model.dart';
 
@@ -15,6 +17,11 @@ class LinkRepository {
 
   Future<dynamic> addLink() async {
     final response = await _helper.post("", {}, {});
+    return LinkResponse.fromJson(response).results;
+  }
+
+  Future<dynamic> editLink(int id) async {
+    final response = await _helper.put('${ApiSettings.linkReq}/$id', {}, {});
     return LinkResponse.fromJson(response).results;
   }
 }

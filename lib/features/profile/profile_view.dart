@@ -1,11 +1,13 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:bootcamp_starter/features/edit_user_info/edit_user_info.dart';
+import 'package:bootcamp_starter/features/profile/widget/link_container.dart';
 import 'package:bootcamp_starter/features/profile/widget/profile_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import '../../core/util/api_response.dart';
 import '../../core/util/constants.dart';
+import '../../core/util/styles.dart';
 import '../add_link/add_link.dart';
 import 'links/models/link_model.dart';
 import 'links/providers/link_provider.dart';
@@ -30,17 +32,26 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        forceMaterialTransparency: true,
+        centerTitle: true,
+        automaticallyImplyLeading: false,
+        title: Text('Profile',
+            style: Styles.titleStyle, textAlign: TextAlign.center),
+      ),
       body: Padding(
-        padding:  EdgeInsets.symmetric(horizontal: 38.w),
+        padding: EdgeInsets.symmetric(horizontal: 38.w),
         child: Column(
           children: [
             SizedBox(height: 36.h),
             FadeInRight(
-              child: ProfileContainer(onPressed:(){
+              child: ProfileContainer(onPressed: () {
                 Navigator.pushNamed(context, EditUserInfo.id);
               }),
             ),
-            SizedBox(height: 24.h,),
+            SizedBox(
+              height: 24.h,
+            ),
             Consumer<LinkProvider>(
               builder: (_, linkProvider, __) {
                 if (linkProvider.linkList.status == Status.LOADING) {
@@ -48,20 +59,16 @@ class _ProfileViewState extends State<ProfileView> {
                     child: CircularProgressIndicator(),
                   );
                 }
+
                 if (linkProvider.linkList.status == Status.ERROR) {
                   return Center(
                     child: Text('${linkProvider.linkList.message}'),
                   );
                 }
+
                 print(linkProvider.linkList.data?.length);
                 return Center(
-                  child: ListView.builder(
-                    itemCount: linkProvider.linkList.data?.length,
-                    itemBuilder: (context, index) {
-                      Link? link = linkProvider.linkList.data?[index];
-                      return Text('${link?.title}');
-                    },
-                  ),
+                  child: LinkContainer(user: linkProvider.linkList.data ,)
                 );
               },
             ),

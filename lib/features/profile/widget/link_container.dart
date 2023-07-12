@@ -10,13 +10,14 @@ import '../../../core/util/styles.dart';
 import '../../../models/api_ressponse.dart';
 import '../../../models/user_link_model.dart';
 import '../../edit_link/edit_link.dart';
+import '../links/models/link_model.dart';
 
 class LinkContainer extends StatefulWidget {
   const LinkContainer({
     super.key,
     required this.user,
   });
-  final List<UserLinkModel> user;
+  final List<Link>? user;
 
   @override
   State<LinkContainer> createState() => _LinkContainerState();
@@ -32,7 +33,7 @@ class _LinkContainerState extends State<LinkContainer> with Helpers {
     return SizedBox(
       height: 280.h,
       child: ListView.builder(
-        itemCount: widget.user.length,
+        itemCount: widget.user!.length,
         itemBuilder: (context, index) {
           var ContainerColor = Color(0xffFEE2E7);
           var titleColor = Color(0xff783341);
@@ -72,7 +73,7 @@ class _LinkContainerState extends State<LinkContainer> with Helpers {
             ),
             onDismissed: (direction) {
               if (direction == DismissDirection.endToStart) {
-                delete(id: widget.user![index].id);
+                delete(id: widget.user![index].id!);
               }
               if (direction == DismissDirection.startToEnd) {
                 Navigator.push(
@@ -101,13 +102,13 @@ class _LinkContainerState extends State<LinkContainer> with Helpers {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.user![index].title,
+                        widget.user![index].title!,
                         style: Styles.profileContenairLinkesStyle.copyWith(
                           color: titleColor,
                         ),
                       ),
                       Text(
-                        widget.user![index].link,
+                        widget.user![index].link!,
                         style: Styles.profileContenairLinkesStyle.copyWith(
                           color: subTitleColor,
                         ),

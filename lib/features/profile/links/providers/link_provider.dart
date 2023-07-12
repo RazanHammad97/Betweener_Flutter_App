@@ -27,4 +27,15 @@ class LinkProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  editLinkList() async {
+    try {
+      List<Link> links = await _linkRepository.fetchLinkList();
+      _linkList = ApiResponse.completed(links);
+      notifyListeners();
+    } catch (e) {
+      _linkList = ApiResponse.error(e.toString());
+      notifyListeners();
+    }
+  }
 }

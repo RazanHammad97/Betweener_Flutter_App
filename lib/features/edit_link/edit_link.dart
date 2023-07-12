@@ -8,11 +8,12 @@ import '../../core/helper/helper.dart';
 import '../../core/widgets/custom_labeled_textfield_widget.dart';
 import '../../models/api_ressponse.dart';
 import '../../models/user_link_model.dart';
+import '../profile/links/models/link_model.dart';
 import '../profile/profile_view.dart';
 
 class EditLink extends StatefulWidget {
   EditLink({super.key, required this.user});
-  final UserLinkModel user;
+  final Link user;
 
   @override
   State<EditLink> createState() => _EditLinkState();
@@ -27,9 +28,9 @@ class _EditLinkState extends State<EditLink> with Helpers {
 
   @override
   Widget build(BuildContext context) {
-    _textTitleController.text = widget.user.title;
-    _textLinkController.text = widget.user.link;
-    _textUserNameController.text = widget.user.username;
+    _textTitleController.text = widget.user!.title!;
+    _textLinkController.text = widget.user!.link!;
+    _textUserNameController.text = widget.user!.username!;
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -114,7 +115,7 @@ class _EditLinkState extends State<EditLink> with Helpers {
         title: _textTitleController.text,
         link: _textLinkController.text,
         username: _textUserNameController.text,
-        id: widget.user.id);
+        id: widget.user!.id!);
     if (processResponse.sucess) {
       Navigator.pop(context);
       context.showSnakBar(
