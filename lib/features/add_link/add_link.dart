@@ -89,9 +89,15 @@ class _AddLinkState extends State<AddLink> with Helpers {
                             _textUserNameController.text,
                             "0"
                           );
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: const Text('Added Successfully'),
+                          duration: const Duration(seconds: 1),));
+
                         },
                         text: 'Add ',
+
                       ),
+
                     ],
                   ))),
         ));

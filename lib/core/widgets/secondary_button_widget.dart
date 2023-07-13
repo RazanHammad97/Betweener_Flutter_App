@@ -5,12 +5,13 @@ class SecondaryButtonWidget extends StatelessWidget {
   final Function()? onTap;
   final double? width;
   final String text;
+  Widget? widget;
 
-  const SecondaryButtonWidget(
+   SecondaryButtonWidget(
       {super.key,
       required this.onTap,
       this.width = double.infinity,
-      required this.text});
+      required this.text,this.widget});
 
   @override
   Widget build(BuildContext context) {
