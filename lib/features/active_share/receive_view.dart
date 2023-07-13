@@ -1,8 +1,11 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:bootcamp_starter/features/active_share/widgets/profile_listview.dart';
+import 'package:bootcamp_starter/features/onbording/user_location/providers/user_location_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
+import '../../core/util/api_response.dart';
 import '../../core/util/assets.dart';
 import '../../core/util/styles.dart';
 
@@ -13,6 +16,7 @@ class ReceiveView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    UserLocationProvider userLocationProvider = UserLocationProvider();
     return Scaffold(
       body: Center(
         child: Padding(
@@ -27,9 +31,13 @@ class ReceiveView extends StatelessWidget {
               SizedBox(
                 height: 40.h,
               ),
+
               FadeInRight(
                 child: SizedBox(
-                    height: MediaQuery.of(context).size.height / 4,
+                    height: MediaQuery
+                        .of(context)
+                        .size
+                        .height / 4,
                     child: Hero(
                         tag: 'activeSharingImage',
                         child: Image.asset('assets/imgs/active_sharing.png'))),
@@ -37,7 +45,7 @@ class ReceiveView extends StatelessWidget {
               SizedBox(
                 height: 34.h,
               ),
-              FadeInLeft(child: const ProfilesListView()),
+              FadeInLeft(child:  ProfilesListView()),
             ],
           ),
         ),

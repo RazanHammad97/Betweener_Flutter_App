@@ -1,3 +1,4 @@
+import 'package:bootcamp_starter/features/active_share/nearest/providers/nearest_provider.dart';
 import 'package:bootcamp_starter/features/active_share/receive_view.dart';
 import 'package:bootcamp_starter/features/auth/login_view.dart';
 import 'package:bootcamp_starter/features/auth/register_view.dart';
@@ -5,6 +6,7 @@ import 'package:bootcamp_starter/features/home/active_share/providers/ActiveShar
 import 'package:bootcamp_starter/features/home/home_view.dart';
 import 'package:bootcamp_starter/features/main_app/main_app_view.dart';
 import 'package:bootcamp_starter/features/onbording/onbording_view.dart';
+import 'package:bootcamp_starter/features/onbording/user_location/providers/user_location_provider.dart';
 import 'package:bootcamp_starter/features/profile/profile_view.dart';
 import 'package:bootcamp_starter/pref/shared_pref.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +37,12 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<ActiveShareProvider>(
           create: (_) => ActiveShareProvider(),
+        ),
+        ChangeNotifierProvider<UserLocationProvider>(
+          create: (_) => UserLocationProvider(),
+        ),
+        ChangeNotifierProvider<NearestProvider>(
+          create: (_) => NearestProvider(),
         ),
       ],
       child: ScreenUtilInit(

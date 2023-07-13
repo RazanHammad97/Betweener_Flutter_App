@@ -6,6 +6,7 @@ import 'package:bootcamp_starter/features/profile/links/providers/link_provider.
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import '../../controller/link_api_controller.dart';
 import '../../core/helper/helper.dart';
 import '../../core/util/constants.dart';
@@ -14,6 +15,7 @@ import '../../models/api_ressponse.dart';
 
 class AddLink extends StatefulWidget {
   AddLink({super.key});
+
   static String id = '/AddLink';
 
   @override
@@ -80,7 +82,13 @@ class _AddLinkState extends State<AddLink> with Helpers {
                       SecondaryButtonWidget(
                         width: 100.w,
                         onTap: () {
-                          performAddingLink();
+                          Provider.of<LinkProvider>(context, listen: false)
+                              .addLink(
+                            _textTitleController.text,
+                            _textLinkController.text,
+                            _textUserNameController.text,
+                            "0"
+                          );
                         },
                         text: 'Add ',
                       ),

@@ -1,10 +1,13 @@
+import 'package:bootcamp_starter/core/util/api_settings.dart';
+
 import '../../../../core/util/api_base_helper.dart';
+import '../../../../pref/shared_pref.dart';
 import '../models/link_model.dart';
 
 class LinkRepository {
   final ApiBaseHelper _helper = ApiBaseHelper();
 
-  String userToken = '200|KdHhbLjL3X8XEYEkDJNpGTJItQ1eXRNV6Z4whGuH';
+  String userToken = SharedPrefController().getValueFor("token");
 
   Future<List<Link>> fetchLinkList() async {
     final response = await _helper.get("/links", {
@@ -13,8 +16,15 @@ class LinkRepository {
     return LinkResponse.fromJson(response).results;
   }
 
-  Future<dynamic> addLink() async {
-    final response = await _helper.post("", {}, {});
+  Future<dynamic> addLink(String title,String link,String userName, String isActive) async {
+    final response = await _helper.post(ApiSettings.usersLink, {
+      "title":title,
+      "link":link,
+      "userName":userName,
+      "isActive":isActive,
+    }, {
+      'Authorization':userToken
+    });
     return LinkResponse.fromJson(response).results;
   }
 }
